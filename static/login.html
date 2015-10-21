@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+		<title>Rudichat</title>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<div class="jumbotron">
+			<div class="container">
+				<h1 class="content">Rudichat: Login/Register</h1>
+			</div>
+		</div>
+
+		<div class="container" style="max-width: 400px">
+			<form id="login_registration">
+				Username: <input type="text" class="form-control" id="username"/>
+				<br/>
+				Password: <input type="password" class="form-control" id="password"/>
+				<br/>
+				<input class="btn btn-primary" type="submit" name="submit" value="Submit"/>
+			</form>
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script>
+		$("#login_registration").submit(function(e) {
+
+			$.ajax({
+				type: 'POST',
+				data: JSON.stringify({username: $("#username").val(), password: $("#password").val()}),
+				url: 'http://localhost:3000/login',
+				contentType: 'application/json',
+				dataType: 'json',
+				success: function(data) {
+					localStorage.setItem('token', data.token);
+					localStorage.setItem('username', $("#username").val());
+					window.location.href = "http://localhost:3000/chat"
+				},
+				error: function(error) {
+					alert('Cannot log in or register a new user.');
+				}
+			});
+		});
+		</script>
+	</body>
+</html>
